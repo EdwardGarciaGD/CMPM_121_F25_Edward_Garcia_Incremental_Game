@@ -18,7 +18,24 @@ button.onclick = () => {
   updateCounter();
 };
 
-setInterval(updateCounter, 1000);
+let startTime = 0;
+
+startUpdate();
+
+function update(timestamp: number) {
+  if (!startTime) startTime = timestamp;
+
+  if (timestamp - startTime >= 1000) {
+    updateCounter();
+    startTime = timestamp;
+  }
+
+  requestAnimationFrame(update);
+}
+
+function startUpdate() {
+  requestAnimationFrame(update);
+}
 
 function updateCounter() {
   counter += 1;
