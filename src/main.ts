@@ -20,8 +20,7 @@ button.onclick = () => {
 
 setInterval(updateCounter, 1000);
 
-function updateCounter()
-{
+function updateCounter() {
   counter += 1;
   counterElement.textContent = counter + " purple nurples";
-} 
+}
