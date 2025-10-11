@@ -8,19 +8,35 @@ document.body.innerHTML = `
   <br><br>
 `;
 
+let isGameStarted: boolean = false;
 let counter: number = 0;
-const counterElement = document.getElementById("counter")!;
+let startTime: number = 0;
+let growthRate: number = 1;
 
-const button = document.createElement("button");
-document.body.appendChild(button);
-button.innerText = "🥧 Bake!";
-button.onclick = () => {
+const counterElement = document.getElementById("counter")!;
+const bakeButton = document.createElement("button");
+const upgradeButton = document.createElement("button");
+
+document.body.appendChild(bakeButton);
+bakeButton.innerText = "🥧 Bake!";
+bakeButton.onclick = () => {
+  if (!isGameStarted) {
+    isGameStarted = true;
+    startUpdate();
+  }
   updateCounter();
 };
 
-let startTime = 0;
-
-startUpdate();
+upgradeButton.onclick = () => {
+  if (counter >= 10) {
+    counter -= 10;
+    growthRate += 1;
+    alert(
+      "Oven Upgraded! It is now baking " + growthRate +
+        " purple nurples per second!",
+    );
+  }
+};
 
 function update(timestamp: number) {
   if (!startTime) startTime = timestamp;
@@ -38,6 +54,15 @@ function startUpdate() {
 }
 
 function updateCounter() {
-  counter += 1;
+  counter += growthRate;
   counterElement.textContent = counter + " purple nurples";
+
+  if (counter === 10) {
+    addUgradeButton();
+  }
+}
+
+function addUgradeButton() {
+  document.body.appendChild(upgradeButton);
+  upgradeButton.innerText = "Upgrade Oven!";
 }
