@@ -1,8 +1,10 @@
-//import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
+import BurpleNurplesJPGUrl from "./Burple Nurples Chowder.jpg";
 import "./style.css";
 
+document.title = "Burple Nurples!";
 document.body.innerHTML = `
-  <h1>Purple Nurples!</h1>
+  <h1>Burple Nurples!</h1>
+  <p><img src="${BurpleNurplesJPGUrl}" width="300" height="200"/></p>
   <div id="counter"></div>
   <br>
   <div id="rate"></div>
@@ -55,7 +57,7 @@ ovenUpgradeButton.onclick = () => {
     growthRate = roundTo(growthRate, 2);
     numOfOvenUpgrades += 1;
     alert(
-      "Oven Upgraded! It is now baking .1 more purple nurples per second!",
+      "Oven Upgraded! It is now baking .1 more burple nurples per second!",
     );
     upgradesElement.textContent = " Number of Oven Upgrades: " +
       numOfOvenUpgrades;
@@ -73,7 +75,7 @@ ovenBuyButton.onclick = () => {
     growthRate += 2;
     numOfOvens += 1;
     alert(
-      "1 oven bought! You are now baking 2 more purple nurples per second!",
+      "1 oven bought! You are now baking 2 more burple nurples per second!",
     );
     ovensElement.textContent = " Number of ovens: " + numOfOvens;
     updateButtonText(ovenBuyButton, "Buy Oven: " + ovenPrice + " nurples");
@@ -87,7 +89,7 @@ bakeryBuyButton.onclick = () => {
     growthRate += 50;
     numOfBakeries += 1;
     alert(
-      "1 bakery bought! You are now baking 50 more purple nurples per second!",
+      "1 bakery bought! You are now baking 50 more burple nurples per second!",
     );
     bakeriesElement.textContent = " Number of bakeries: " + numOfBakeries;
     updateButtonText(
@@ -121,7 +123,7 @@ function updateCounter() {
 
 function updateDisplay() {
   let buttonText: string;
-  counterElement.textContent = counter + " purple nurples";
+  counterElement.textContent = counter + " burple nurples";
   rateElement.textContent = growthRate + " nurples/sec";
 
   if (counter === 10 && !document.body.contains(ovenUpgradeButton)) {
