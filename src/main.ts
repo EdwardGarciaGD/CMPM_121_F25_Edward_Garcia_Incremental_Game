@@ -18,26 +18,30 @@ document.body.innerHTML = `
   <div id="footer">Created by Edward Garcia <br><br></div>
 `;
 
+interface Upgrade {
+  name: string;
+  price: number;
+  rate: number;
+  numOfUpgrade: number;
+}
+
+const availableUpgrades: Upgrade[] = [
+  { name: "OvenUpgrade", price: 10, rate: 0.1, numOfUpgrade: 0 },
+  { name: "Oven", price: 100, rate: 2, numOfUpgrade: 0 },
+  { name: "Bakery", price: 1000, rate: 50, numOfUpgrade: 0 },
+];
+
 let isGameStarted: boolean = false;
 let counter: number = 0;
 let startTime: number = 0;
 let growthRate: number = 1;
-let numOfOvenUpgrades: number = 0;
-let numOfOvens: number = 0;
-let numOfBakeries: number = 0;
-let ovenUpgradePrice: number = 10;
-let ovenPrice: number = 100;
-let bakeryPrice: number = 1000;
 
 const counterElement = document.getElementById("counter")!;
 const rateElement = document.getElementById("rate")!;
+const bakeButton = document.createElement("button");
 const upgradesElement = document.getElementById("upgrades")!;
 const ovensElement = document.getElementById("ovens")!;
 const bakeriesElement = document.getElementById("bakeries")!;
-const bakeButton = document.createElement("button");
-const ovenUpgradeButton: HTMLButtonElement = document.createElement("button");
-const ovenBuyButton: HTMLButtonElement = document.createElement("button");
-const bakeryBuyButton: HTMLButtonElement = document.createElement("button");
 
 document.body.appendChild(bakeButton);
 bakeButton.innerText = "🥧 Bake!";
@@ -49,55 +53,28 @@ bakeButton.onclick = () => {
   updateCounter();
 };
 
-ovenUpgradeButton.onclick = () => {
-  if (counter >= ovenUpgradePrice) {
-    counter -= ovenUpgradePrice;
-    ovenUpgradePrice = updateUpgradePrice(ovenUpgradePrice);
-    growthRate += .1;
+availableUpgrades.forEach((upgrade) => {
+  const button: HTMLButtonElement = document.createElement("button");
+  button.id = upgrade.name;
+  button.className = "upgradebutton";
+  button.textContent = upgrade.name + ": " + upgrade.price + " nurples";
+  button.onclick = () => buttonUpgrade(upgrade);
+  button.disabled = true;
+  button.style.opacity = "0";
+  document.body.appendChild(button);
+});
+
+function buttonUpgrade(upgrade: Upgrade) {
+  if (counter >= upgrade.price) {
+    counter -= upgrade.price;
+    upgrade.price = updateUpgradePrice(upgrade.price);
+    growthRate += upgrade.rate;
     growthRate = roundTo(growthRate, 2);
-    numOfOvenUpgrades += 1;
-    alert(
-      "Oven Upgraded! It is now baking .1 more burple nurples per second!",
-    );
-    upgradesElement.textContent = " Number of Oven Upgrades: " +
-      numOfOvenUpgrades;
-    updateButtonText(
-      ovenUpgradeButton,
-      "Upgrade Oven: " + ovenUpgradePrice + " nurples",
-    );
+    upgrade.numOfUpgrade += 1;
+    displayNewPrice(upgrade.name);
+    updateCounter();
   }
-};
-
-ovenBuyButton.onclick = () => {
-  if (counter >= ovenPrice) {
-    counter -= ovenPrice;
-    ovenPrice = updateUpgradePrice(ovenPrice);
-    growthRate += 2;
-    numOfOvens += 1;
-    alert(
-      "1 oven bought! You are now baking 2 more burple nurples per second!",
-    );
-    ovensElement.textContent = " Number of ovens: " + numOfOvens;
-    updateButtonText(ovenBuyButton, "Buy Oven: " + ovenPrice + " nurples");
-  }
-};
-
-bakeryBuyButton.onclick = () => {
-  if (counter >= bakeryPrice) {
-    counter -= bakeryPrice;
-    bakeryPrice = updateUpgradePrice(bakeryPrice);
-    growthRate += 50;
-    numOfBakeries += 1;
-    alert(
-      "1 bakery bought! You are now baking 50 more burple nurples per second!",
-    );
-    bakeriesElement.textContent = " Number of bakeries: " + numOfBakeries;
-    updateButtonText(
-      bakeryBuyButton,
-      "Buy Bakery: " + bakeryPrice + " nurples",
-    );
-  }
-};
+}
 
 function update(timestamp: number) {
   if (!startTime) startTime = timestamp;
@@ -122,28 +99,52 @@ function updateCounter() {
 }
 
 function updateDisplay() {
-  let buttonText: string;
+  let button: HTMLButtonElement;
   counterElement.textContent = counter + " burple nurples";
   rateElement.textContent = growthRate + " nurples/sec";
 
-  if (counter === 10 && !document.body.contains(ovenUpgradeButton)) {
-    buttonText = "Upgrade Oven: " + ovenUpgradePrice + " nurples";
-    displayNewUgradeButton(buttonText, ovenUpgradeButton);
-  } else if (counter >= 100 && !document.body.contains(ovenBuyButton)) {
-    buttonText = "Buy Oven: " + ovenPrice + " nurples";
-    displayNewUgradeButton(buttonText, ovenBuyButton);
-  } else if (counter >= 1000 && !document.body.contains(bakeryBuyButton)) {
-    buttonText = "Buy Bakery: " + bakeryPrice + " nurples";
-    displayNewUgradeButton(buttonText, bakeryBuyButton);
+  if (counter === 10) {
+    button = document.getElementById("OvenUpgrade") as HTMLButtonElement;
+    button.style.opacity = "1";
+    button.disabled = false;
+  }
+  if (counter >= 100) {
+    button = document.getElementById("Oven") as HTMLButtonElement;
+    button.style.opacity = "1";
+    button.disabled = false;
+  }
+  if (counter >= 1000) {
+    button = document.getElementById("Bakery") as HTMLButtonElement;
+    button.style.opacity = "1";
+    button.disabled = false;
   }
 }
 
-function displayNewUgradeButton(
-  buttonText: string,
-  upgradeButton: HTMLButtonElement,
-) {
-  document.body.appendChild(upgradeButton);
-  upgradeButton.innerText = buttonText;
+function displayNewPrice(buttonID: string) {
+  const button: HTMLButtonElement = document.getElementById(
+    buttonID,
+  ) as HTMLButtonElement;
+  button.innerText = buttonID + ": " +
+    availableUpgrades.find((upgrade) => upgrade.name === buttonID)?.price +
+    " nurples";
+
+  switch (buttonID) {
+    case "OvenUpgrade":
+      upgradesElement.textContent = "Oven Upgrades: " +
+        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
+          ?.numOfUpgrade;
+      break;
+    case "Oven":
+      ovensElement.textContent = "Ovens: " +
+        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
+          ?.numOfUpgrade;
+      break;
+    case "Bakery":
+      bakeriesElement.textContent = "Bakeries: " +
+        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
+          ?.numOfUpgrade;
+      break;
+  }
 }
 
 function roundTo(num: number, places: number) {
@@ -153,11 +154,4 @@ function roundTo(num: number, places: number) {
 
 function updateUpgradePrice(upgradePrice: number) {
   return roundTo(upgradePrice + upgradePrice * .15, 2);
-}
-
-function updateButtonText(
-  upgradeButton: HTMLButtonElement,
-  buttonText: string,
-) {
-  upgradeButton.innerText = buttonText;
 }
