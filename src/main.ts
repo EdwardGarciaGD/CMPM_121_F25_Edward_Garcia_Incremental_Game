@@ -1,10 +1,22 @@
 import BurpleNurplesJPGUrl from "./Burple Nurples Chowder.jpg";
+import PoiosonousNurplesJPGUrl from "./Poison Burple Nurples Chowder.jpg";
+import MungDaalPNGUrl from "./Mung Daal Chowder.png";
+import ChowderPNGURL from "./Chowder.png";
+import ShnitzelJPGURL from "./Shnitzel Chowder.jpg";
+import ThriceCreamPNGURL from "./Thrice Cream Chowder.png";
 import "./style.css";
 
 document.title = "Burple Nurples!";
 document.body.innerHTML = `
   <h1>Burple Nurples!</h1>
-  <p><img src="${BurpleNurplesJPGUrl}" width="300" height="200"/></p>
+  <div style="display: flex; gap: 10px; justify-content: center;">
+  <img id="img1" src="${BurpleNurplesJPGUrl}" width="250" height="200" hidden="true">
+  <img id="img2" src="${ChowderPNGURL}" width="250" height="200" hidden="true">
+  <img id="img3" src="${PoiosonousNurplesJPGUrl}" width="250" height="200" hidden="true">
+  <img id="img4" src="${MungDaalPNGUrl}" width="250" height="200" hidden="true">
+  <img id="img5" src="${ShnitzelJPGURL}" width="200" height="200" hidden="true">
+  <img id="img6" src="${ThriceCreamPNGURL}" width="250" height="200" hidden="true">
+  </div>
   <div id="counter"></div>
   <br>
   <div id="rate"></div>
@@ -15,6 +27,10 @@ document.body.innerHTML = `
   <br>
   <div id="bakeries"></div>
   <br>
+  <div id="assistants"></div>
+  <br>
+  <div id="thricecream"></div>
+  <br>
   <div id="footer">Created by Edward Garcia <br><br></div>
 `;
 
@@ -23,12 +39,46 @@ interface Upgrade {
   price: number;
   rate: number;
   numOfUpgrade: number;
+  description: string;
 }
 
 const availableUpgrades: Upgrade[] = [
-  { name: "OvenUpgrade", price: 10, rate: 0.1, numOfUpgrade: 0 },
-  { name: "Oven", price: 100, rate: 2, numOfUpgrade: 0 },
-  { name: "Bakery", price: 1000, rate: 50, numOfUpgrade: 0 },
+  {
+    name: "OvenUpgrade",
+    price: 10,
+    rate: 0.1,
+    numOfUpgrade: 0,
+    description: '"WAZAAM!!" -Chowder',
+  },
+  {
+    name: "Oven",
+    price: 100,
+    rate: 2,
+    numOfUpgrade: 0,
+    description:
+      '"I\'m just making burple nurples. What are you so worried about?" -Chowder',
+  },
+  {
+    name: "Bakery",
+    price: 1000,
+    rate: 50,
+    numOfUpgrade: 0,
+    description: '"They look so good, so not deadly poisonous" -Mung Daal',
+  },
+  {
+    name: "Assistant",
+    price: 2000,
+    rate: 100,
+    numOfUpgrade: 0,
+    description: '"Radda Radda?" -Shnitzel',
+  },
+  {
+    name: "ThriceCream",
+    price: 4000,
+    rate: 200,
+    numOfUpgrade: 0,
+    description: '"Thriiice creaaaaaam!" -Chowder',
+  },
 ];
 
 let isGameStarted: boolean = false;
@@ -42,12 +92,17 @@ const bakeButton = document.createElement("button");
 const upgradesElement = document.getElementById("upgrades")!;
 const ovensElement = document.getElementById("ovens")!;
 const bakeriesElement = document.getElementById("bakeries")!;
+const assistantsElement = document.getElementById("assistants")!;
+const thricecreamElement = document.getElementById("thricecream")!;
+
+document.body.style.backgroundColor = "#DF9DF2";
 
 document.body.appendChild(bakeButton);
 bakeButton.innerText = "🥧 Bake!";
 bakeButton.onclick = () => {
   if (!isGameStarted) {
     isGameStarted = true;
+    document.getElementById("img1")!.removeAttribute("hidden");
     startUpdate();
   }
   updateCounter();
@@ -73,6 +128,7 @@ function buttonUpgrade(upgrade: Upgrade) {
     upgrade.numOfUpgrade += 1;
     displayNewPrice(upgrade.name);
     updateCounter();
+    alert(upgrade.description);
   }
 }
 
@@ -118,6 +174,16 @@ function updateDisplay() {
     button.style.opacity = "1";
     button.disabled = false;
   }
+  if (counter >= 2000) {
+    button = document.getElementById("Assistant") as HTMLButtonElement;
+    button.style.opacity = "1";
+    button.disabled = false;
+  }
+  if (counter >= 4000) {
+    button = document.getElementById("ThriceCream") as HTMLButtonElement;
+    button.style.opacity = "1";
+    button.disabled = false;
+  }
 }
 
 function displayNewPrice(buttonID: string) {
@@ -133,16 +199,31 @@ function displayNewPrice(buttonID: string) {
       upgradesElement.textContent = "Oven Upgrades: " +
         availableUpgrades.find((upgrade) => upgrade.name === buttonID)
           ?.numOfUpgrade;
+      document.getElementById("img2")!.removeAttribute("hidden");
       break;
     case "Oven":
       ovensElement.textContent = "Ovens: " +
         availableUpgrades.find((upgrade) => upgrade.name === buttonID)
           ?.numOfUpgrade;
+      document.getElementById("img3")!.removeAttribute("hidden");
       break;
     case "Bakery":
       bakeriesElement.textContent = "Bakeries: " +
         availableUpgrades.find((upgrade) => upgrade.name === buttonID)
           ?.numOfUpgrade;
+      document.getElementById("img4")!.removeAttribute("hidden");
+      break;
+    case "Assistant":
+      assistantsElement.textContent = "Assistants: " +
+        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
+          ?.numOfUpgrade;
+      document.getElementById("img5")!.removeAttribute("hidden");
+      break;
+    case "ThriceCream":
+      thricecreamElement.textContent = "Thrice Creams: " +
+        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
+          ?.numOfUpgrade;
+      document.getElementById("img6")!.removeAttribute("hidden");
       break;
   }
 }
