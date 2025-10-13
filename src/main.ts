@@ -3,7 +3,7 @@ import "./style.css";
 
 document.body.innerHTML = `
   <h1>Purple Nurples!</h1>
-  <div id="counter">0 purple nurples</div>
+  <div id="counter"></div>
   <br>
   <div id="rate"></div>
   <br>
@@ -23,6 +23,9 @@ let growthRate: number = 1;
 let numOfOvenUpgrades: number = 0;
 let numOfOvens: number = 0;
 let numOfBakeries: number = 0;
+let ovenUpgradePrice: number = 10;
+let ovenPrice: number = 100;
+let bakeryPrice: number = 1000;
 
 const counterElement = document.getElementById("counter")!;
 const rateElement = document.getElementById("rate")!;
@@ -45,8 +48,9 @@ bakeButton.onclick = () => {
 };
 
 ovenUpgradeButton.onclick = () => {
-  if (counter >= 10) {
-    counter -= 10;
+  if (counter >= ovenUpgradePrice) {
+    counter -= ovenUpgradePrice;
+    ovenUpgradePrice = updateUpgradePrice(ovenUpgradePrice);
     growthRate += .1;
     growthRate = roundTo(growthRate, 2);
     numOfOvenUpgrades += 1;
@@ -55,30 +59,41 @@ ovenUpgradeButton.onclick = () => {
     );
     upgradesElement.textContent = " Number of Oven Upgrades: " +
       numOfOvenUpgrades;
+    updateButtonText(
+      ovenUpgradeButton,
+      "Upgrade Oven: " + ovenUpgradePrice + " nurples",
+    );
   }
 };
 
 ovenBuyButton.onclick = () => {
-  if (counter >= 100) {
-    counter -= 100;
+  if (counter >= ovenPrice) {
+    counter -= ovenPrice;
+    ovenPrice = updateUpgradePrice(ovenPrice);
     growthRate += 2;
     numOfOvens += 1;
     alert(
       "1 oven bought! You are now baking 2 more purple nurples per second!",
     );
     ovensElement.textContent = " Number of ovens: " + numOfOvens;
+    updateButtonText(ovenBuyButton, "Buy Oven: " + ovenPrice + " nurples");
   }
 };
 
 bakeryBuyButton.onclick = () => {
-  if (counter >= 1000) {
-    counter -= 1000;
+  if (counter >= bakeryPrice) {
+    counter -= bakeryPrice;
+    bakeryPrice = updateUpgradePrice(bakeryPrice);
     growthRate += 50;
     numOfBakeries += 1;
     alert(
       "1 bakery bought! You are now baking 50 more purple nurples per second!",
     );
     bakeriesElement.textContent = " Number of bakeries: " + numOfBakeries;
+    updateButtonText(
+      bakeryBuyButton,
+      "Buy Bakery: " + bakeryPrice + " nurples",
+    );
   }
 };
 
@@ -105,15 +120,19 @@ function updateCounter() {
 }
 
 function updateDisplay() {
+  let buttonText: string;
   counterElement.textContent = counter + " purple nurples";
   rateElement.textContent = growthRate + " nurples/sec";
 
   if (counter === 10 && !document.body.contains(ovenUpgradeButton)) {
-    displayNewUgradeButton("Upgrade Oven", ovenUpgradeButton);
+    buttonText = "Upgrade Oven: " + ovenUpgradePrice + " nurples";
+    displayNewUgradeButton(buttonText, ovenUpgradeButton);
   } else if (counter >= 100 && !document.body.contains(ovenBuyButton)) {
-    displayNewUgradeButton("Buy Oven", ovenBuyButton);
+    buttonText = "Buy Oven: " + ovenPrice + " nurples";
+    displayNewUgradeButton(buttonText, ovenBuyButton);
   } else if (counter >= 1000 && !document.body.contains(bakeryBuyButton)) {
-    displayNewUgradeButton("Buy Bakery", bakeryBuyButton);
+    buttonText = "Buy Bakery: " + bakeryPrice + " nurples";
+    displayNewUgradeButton(buttonText, bakeryBuyButton);
   }
 }
 
@@ -128,4 +147,15 @@ function displayNewUgradeButton(
 function roundTo(num: number, places: number) {
   const factor = 10 ** places;
   return Math.round(num * factor) / factor;
+}
+
+function updateUpgradePrice(upgradePrice: number) {
+  return roundTo(upgradePrice + upgradePrice * .15, 2);
+}
+
+function updateButtonText(
+  upgradeButton: HTMLButtonElement,
+  buttonText: string,
+) {
+  upgradeButton.innerText = buttonText;
 }
