@@ -186,6 +186,10 @@ function updateDisplay() {
   }
 }
 
+/* Upgrade buttons will display new price and quantity after purchase inside the searched button
+   from availableUpgrades array and unhide a specific image for each upgrade
+   Switch statement used to be more clear and better effeciency than loop with if statements
+*/
 function displayNewPrice(buttonID: string) {
   const button: HTMLButtonElement = document.getElementById(
     buttonID,
