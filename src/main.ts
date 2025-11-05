@@ -86,17 +86,16 @@ let counter: number = 0;
 let startTime: number = 0;
 let growthRate: number = 1;
 
+// UI Initialization
 const counterElement = document.getElementById("counter")!;
 const rateElement = document.getElementById("rate")!;
-const bakeButton = document.createElement("button");
 const upgradesElement = document.getElementById("upgrades")!;
 const ovensElement = document.getElementById("ovens")!;
 const bakeriesElement = document.getElementById("bakeries")!;
 const assistantsElement = document.getElementById("assistants")!;
 const thricecreamElement = document.getElementById("thricecream")!;
 
-document.body.style.backgroundColor = "#DF9DF2";
-
+const bakeButton = document.createElement("button");
 document.body.appendChild(bakeButton);
 bakeButton.innerText = "🥧 Bake!";
 bakeButton.onclick = () => {
@@ -107,6 +106,8 @@ bakeButton.onclick = () => {
   }
   updateCounter();
 };
+
+document.body.style.backgroundColor = "#DF9DF2";
 
 upgradeOptions.forEach((upgrade) => {
   const button: HTMLButtonElement = document.createElement("button");
