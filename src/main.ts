@@ -38,23 +38,23 @@ interface Upgrade {
   name: string;
   price: number;
   rate: number;
-  numOfUpgrade: number;
+  quantity: number;
   description: string;
 }
 
-const availableUpgrades: Upgrade[] = [
+const upgradeOptions: Upgrade[] = [
   {
     name: "OvenUpgrade",
     price: 10,
     rate: 0.1,
-    numOfUpgrade: 0,
+    quantity: 0,
     description: '"WAZAAM!!" -Chowder',
   },
   {
     name: "Oven",
     price: 100,
     rate: 2,
-    numOfUpgrade: 0,
+    quantity: 0,
     description:
       '"I\'m just making burple nurples. What are you so worried about?" -Chowder',
   },
@@ -62,21 +62,21 @@ const availableUpgrades: Upgrade[] = [
     name: "Bakery",
     price: 1000,
     rate: 50,
-    numOfUpgrade: 0,
+    quantity: 0,
     description: '"They look so good, so not deadly poisonous" -Mung Daal',
   },
   {
     name: "Assistant",
     price: 2000,
     rate: 100,
-    numOfUpgrade: 0,
+    quantity: 0,
     description: '"Radda Radda?" -Shnitzel',
   },
   {
     name: "ThriceCream",
     price: 4000,
     rate: 200,
-    numOfUpgrade: 0,
+    quantity: 0,
     description: '"Thriiice creaaaaaam!" -Chowder',
   },
 ];
@@ -108,7 +108,7 @@ bakeButton.onclick = () => {
   updateCounter();
 };
 
-availableUpgrades.forEach((upgrade) => {
+upgradeOptions.forEach((upgrade) => {
   const button: HTMLButtonElement = document.createElement("button");
   button.id = upgrade.name;
   button.className = "upgradebutton";
@@ -125,7 +125,7 @@ function buttonUpgrade(upgrade: Upgrade) {
     upgrade.price = updateUpgradePrice(upgrade.price);
     growthRate += upgrade.rate;
     growthRate = roundTo(growthRate, 2);
-    upgrade.numOfUpgrade += 1;
+    upgrade.quantity += 1;
     displayNewPrice(upgrade.name);
     updateCounter();
     alert(upgrade.description);
@@ -187,7 +187,7 @@ function updateDisplay() {
 }
 
 /* Upgrade buttons will display new price and quantity after purchase inside the searched button
-   from availableUpgrades array and unhide a specific image for each upgrade
+   from upgradeOptions array and unhide a specific image for each upgrade
    Switch statement used to be more clear and better effeciency than loop with if statements
 */
 function displayNewPrice(buttonID: string) {
@@ -195,38 +195,38 @@ function displayNewPrice(buttonID: string) {
     buttonID,
   ) as HTMLButtonElement;
   button.innerText = buttonID + ": " +
-    availableUpgrades.find((upgrade) => upgrade.name === buttonID)?.price +
+    upgradeOptions.find((upgrade) => upgrade.name === buttonID)?.price +
     " nurples";
 
   switch (buttonID) {
     case "OvenUpgrade":
       upgradesElement.textContent = "Oven Upgrades: " +
-        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
-          ?.numOfUpgrade;
+        upgradeOptions.find((upgrade) => upgrade.name === buttonID)
+          ?.quantity;
       document.getElementById("img2")!.removeAttribute("hidden");
       break;
     case "Oven":
       ovensElement.textContent = "Ovens: " +
-        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
-          ?.numOfUpgrade;
+        upgradeOptions.find((upgrade) => upgrade.name === buttonID)
+          ?.quantity;
       document.getElementById("img3")!.removeAttribute("hidden");
       break;
     case "Bakery":
       bakeriesElement.textContent = "Bakeries: " +
-        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
-          ?.numOfUpgrade;
+        upgradeOptions.find((upgrade) => upgrade.name === buttonID)
+          ?.quantity;
       document.getElementById("img4")!.removeAttribute("hidden");
       break;
     case "Assistant":
       assistantsElement.textContent = "Assistants: " +
-        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
-          ?.numOfUpgrade;
+        upgradeOptions.find((upgrade) => upgrade.name === buttonID)
+          ?.quantity;
       document.getElementById("img5")!.removeAttribute("hidden");
       break;
     case "ThriceCream":
       thricecreamElement.textContent = "Thrice Creams: " +
-        availableUpgrades.find((upgrade) => upgrade.name === buttonID)
-          ?.numOfUpgrade;
+        upgradeOptions.find((upgrade) => upgrade.name === buttonID)
+          ?.quantity;
       document.getElementById("img6")!.removeAttribute("hidden");
       break;
   }
