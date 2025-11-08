@@ -1,5 +1,6 @@
 import ClickSoundURL from "./Burple Nurples Burp.mp3";
 import BurpleNurplesJPGUrl from "./Burple Nurples Chowder.jpg";
+import PurchaseSoundURL from "./Burple Nurples Scream.mp3";
 import ChowderPNGURL from "./Chowder.png";
 import MungDaalPNGUrl from "./Mung Daal Chowder.png";
 import PoiosonousNurplesJPGUrl from "./Poison Burple Nurples Chowder.jpg";
@@ -100,6 +101,9 @@ const thricecreamElement = document.getElementById("thricecream")!;
 const soundPlayer = new Audio(ClickSoundURL);
 soundPlayer.loop = false;
 soundPlayer.volume = 0.5;
+const purchaseSoundPlayer = new Audio(PurchaseSoundURL);
+purchaseSoundPlayer.loop = false;
+purchaseSoundPlayer.volume = 0.5;
 
 const bakeButton = document.createElement("button");
 document.body.appendChild(bakeButton);
@@ -139,6 +143,7 @@ function buttonUpgrade(upgrade: Upgrade) {
     displayNewPrice(upgrade.name);
     updateCounter();
     alert(upgrade.description);
+    playSound();
   }
 }
 
@@ -249,4 +254,9 @@ function roundTo(num: number, places: number) {
 
 function updateUpgradePrice(upgradePrice: number) {
   return roundTo(upgradePrice + upgradePrice * .15, 2);
+}
+
+function playSound() {
+  purchaseSoundPlayer.currentTime = 0;
+  purchaseSoundPlayer.play();
 }
