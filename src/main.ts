@@ -1,10 +1,11 @@
+import ClickSoundURL from "./Burple Nurples Burp.mp3";
 import BurpleNurplesJPGUrl from "./Burple Nurples Chowder.jpg";
-import PoiosonousNurplesJPGUrl from "./Poison Burple Nurples Chowder.jpg";
-import MungDaalPNGUrl from "./Mung Daal Chowder.png";
 import ChowderPNGURL from "./Chowder.png";
+import MungDaalPNGUrl from "./Mung Daal Chowder.png";
+import PoiosonousNurplesJPGUrl from "./Poison Burple Nurples Chowder.jpg";
 import ShnitzelJPGURL from "./Shnitzel Chowder.jpg";
-import ThriceCreamPNGURL from "./Thrice Cream Chowder.png";
 import "./style.css";
+import ThriceCreamPNGURL from "./Thrice Cream Chowder.png";
 
 document.title = "Burple Nurples!";
 document.body.innerHTML = `
@@ -95,6 +96,11 @@ const bakeriesElement = document.getElementById("bakeries")!;
 const assistantsElement = document.getElementById("assistants")!;
 const thricecreamElement = document.getElementById("thricecream")!;
 
+// Credits to Github user benho612
+const soundPlayer = new Audio(ClickSoundURL);
+soundPlayer.loop = false;
+soundPlayer.volume = 0.5;
+
 const bakeButton = document.createElement("button");
 document.body.appendChild(bakeButton);
 bakeButton.innerText = "🥧 Bake!";
@@ -104,6 +110,9 @@ bakeButton.onclick = () => {
     document.getElementById("img1")!.removeAttribute("hidden");
     startUpdate();
   }
+
+  soundPlayer.currentTime = 0;
+  soundPlayer.play();
   updateCounter();
 };
 
