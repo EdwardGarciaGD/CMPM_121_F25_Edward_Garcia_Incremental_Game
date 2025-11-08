@@ -7,4 +7,8 @@ TypeScript is a variation of JavaScript that was new to me.
 Typeface was first used in my experience.
 Refactoring skills were practiced during making this project.
 
-Peer benho612 Credit for mp3 sound on button clicks: https://github.com/benho612/CMPM1212-D1-Assignement
+Credits to Cartoon Network and Cartoon Network's Chowder.
+Creator of Chowder: C.H. Greenblatt
+
+Peer benho612 credit for mp3 sound on button clicks: https://github.com/benho612/CMPM1212-D1-Assignement
+Peer ThatGuyIain credit for emoji button implementation: https://github.com/ThatGuyIain/cmpm-121-incremental-game

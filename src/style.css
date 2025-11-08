@@ -3,3 +3,18 @@
   vertical-align: top;
   border: 1px solid salmon;
 }
+
+.button {
+  background: none;
+  border: none;
+  font-size: 70px;
+}
+
+.button:hover {
+  font-size: 80px;
+  transform: translateY(-2px);
+}
+
+.button:active {
+  transform: translateY(3px);
+}

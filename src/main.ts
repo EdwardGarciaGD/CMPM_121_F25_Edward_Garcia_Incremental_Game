@@ -107,7 +107,8 @@ purchaseSoundPlayer.volume = 0.5;
 
 const bakeButton = document.createElement("button");
 document.body.appendChild(bakeButton);
-bakeButton.innerText = "🥧 Bake!";
+bakeButton.innerText = "🥧";
+bakeButton.classList.add("button");
 bakeButton.onclick = () => {
   if (!isGameStarted) {
     isGameStarted = true;
